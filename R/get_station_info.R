@@ -1,3 +1,26 @@
+library(dplyr)
+
+get_data <- function(chr){
+  
+  if(grepl("-", chr)){
+  x= strsplit(chr, split = "-")[[1]][1]
+  }
+  
+  if(grepl("/", chr)){
+    x= strsplit(chr, split = "/")[[1]][1]
+  }
+  
+  if(nchar(x)==4){
+    y = lubridate::ymd(chr)
+  }
+  if(nchar(x)==2){
+    y = lubridate::dmy(chr)
+  }
+  
+  return(y)
+}
+
+
 get_stations <- function(file){
   
   caract = data.table::fread(
@@ -13,7 +36,7 @@ get_stations <- function(file){
   latitude <- caract[5,2]
   longitude <- caract[6,2]
   altitude <- caract[7,2]
-  datafundacao <- caract[8,2]
+  datafundacao <- as.character(caract[8,2])
   
   data.frame(
     estacao = as.character(estacao), 
@@ -23,20 +46,20 @@ get_stations <- function(file){
     latitude = readr::parse_number(gsub(",","\\.",latitude)), 
     longitude = readr::parse_number(gsub(",","\\.",longitude)),
     altitude = readr::parse_number(gsub(",","\\.", altitude)),
-    data_fundacao = as.character(datafundacao))
+    data_fundacao = get_data(datafundacao))
 }
 
-get_stations_inmet = function(year){
+get_stations_inmet <- function(year){
   url = paste0("https://portal.inmet.gov.br/uploads/dadoshistoricos/", year,".zip")
   temp = tempfile()
   download.file(url, temp)
   temp = unzip(temp)
   base = purrr::map_df(temp, get_stations)
   unlink(temp)
+  unlink(year, recursive =T)
   
-  #name = paste0("Dados/Clima/Stations/station", year,".rds")
-  
-  #saveRDS(base, name)
+  name = paste0("Bases/Stations/station", year,".rds")
+  saveRDS(base, name)
   
   return(base)
 }
@@ -61,4 +84,3 @@ stations2016 = get_stations_inmet(2016)
 stations2017 = get_stations_inmet(2017)
 stations2018 = get_stations_inmet(2018)
 stations2019 = get_stations_inmet(2019)
-stations2020 = get_stations_inmet(2020)
