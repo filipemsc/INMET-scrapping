@@ -1,3 +1,5 @@
+# função para capturar os dados de clima
+
 get_clima_info <- function(file){
   clima = data.table::fread(
     file = file,
