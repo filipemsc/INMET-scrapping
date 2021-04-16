@@ -58,8 +58,8 @@ get_stations_inmet <- function(year){
   unlink(temp)
   unlink(year, recursive =T)
   
-  name = paste0("Bases/Stations/station", year,".rds")
-  saveRDS(base, name)
+  #name = paste0("Bases/Stations/station", year,".rds")
+  #saveRDS(base, name)
   
   return(base)
 }
