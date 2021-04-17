@@ -36,8 +36,9 @@ get_base_inmet <- function(year){
   temp = unzip(temp)
   base = purrr::map_df(temp, get_clima_info)
   unlink(temp)
+  unlink(year, recursive =T)
 
-  #name = paste0("Bases/Stations/station", year,".rds")
+  #name = paste0("Bases/clima/clima", year,".rds")
   #saveRDS(base, name)
           
 return(base)
@@ -65,4 +66,4 @@ clima2016 = get_base_inmet(2016)
 clima2017 = get_base_inmet(2017)
 clima2018 = get_base_inmet(2018)
 clima2019 = get_base_inmet(2019)
-clima2019 = get_base_inmet(2020)
+clima2020 = get_base_inmet(2020)
