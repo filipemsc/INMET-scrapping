@@ -6,6 +6,7 @@ stringi, lubridate, purrr, data.table, readr, dplyr
 
 ## Available variables
 
+### get_base_inmet
 `data`: Date
 `hour`: Hour (UTC)
 `precipitacao_total`: Total precipitation, hour (mm)
