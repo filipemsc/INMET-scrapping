@@ -1,3 +1,5 @@
+source("R/get_data.R")
+
 get_clima_info <- function(file){
   clima = data.table::fread(
     file = file,
@@ -19,7 +21,10 @@ get_clima_info <- function(file){
   clima$latitude <- readr::parse_number(gsub(",","\\.",caract[5,2]))
   clima$longitude <- readr::parse_number(gsub(",","\\.",caract[6,2]))
   clima$altitude <- readr::parse_number(gsub(",","\\.",caract[7,2]))
-  clima$data_fundacao <- caract[8,2]
+  clima$data_fundacao <- get_data(as.character(caract[8,2]))
+  
+  clima[clima == -9999] <- NA
+  clima = clima[,-"V20"]  
   
   return(clima)
 }
@@ -32,8 +37,7 @@ get_base_inmet <- function(year){
   base = purrr::map_df(temp, get_clima_info)
   unlink(temp)
 
-  #name = paste0("Dados/Clima/Bases/clima", year,".rds")
-  
+  #name = paste0("Bases/Stations/station", year,".rds")
   #saveRDS(base, name)
           
 return(base)
@@ -61,3 +65,4 @@ clima2016 = get_base_inmet(2016)
 clima2017 = get_base_inmet(2017)
 clima2018 = get_base_inmet(2018)
 clima2019 = get_base_inmet(2019)
+clima2019 = get_base_inmet(2020)
