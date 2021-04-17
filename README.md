@@ -20,7 +20,7 @@ stringi, lubridate, purrr, data.table, readr, dplyr
 
 `pressao_atm_max`: Minimum atmospheric pressure at station level, last hour (mB)
 
-`radiacao_global`: Global radiation (KJ/m^2)
+`radiacao_global`: Global radiation (KJ/m²)
 
 `temp_bulbo_hora`: Dry-bulb temperature, hour (ºC)
 
