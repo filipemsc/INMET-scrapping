@@ -24,7 +24,7 @@ stringi, lubridate, purrr, data.table, readr, dplyr
 
 `temp_bulbo_hora`: Dry-bulb temperature, hour (ºC)
 
-`temp_ovarlho`: Dew point ($ºC$)
+`temp_orvalho`: Dew point ($ºC$)
 
 `temp_max`: Maximum temperature, last hour (ºC)
 
