@@ -1,9 +1,14 @@
+source("R/get_data.R")
+source("R/change_names.R")
+
 get_clima_info <- function(file){
   clima = data.table::fread(
     file = file,
     sep = ";",
     skip = 7, 
-    dec = ",")
+    dec = ",",
+    nrow = 50 # only for testing purposes - must delete later
+    )
   
   caract =  data.table::fread(
     file = file,
@@ -11,7 +16,10 @@ get_clima_info <- function(file){
     header = FALSE,
     col.names= c("caract","value"))
   
-  clima$Data <- lubridate::ymd(clima$Data)
+  clima = clima[,-"V20"]
+  
+  names(clima) = change_names(clima)
+  
   clima$regiao <- caract[1,2]
   clima$uf <- caract[2,2]
   clima$estacao <- caract[3,2]
@@ -19,7 +27,9 @@ get_clima_info <- function(file){
   clima$latitude <- readr::parse_number(gsub(",","\\.",caract[5,2]))
   clima$longitude <- readr::parse_number(gsub(",","\\.",caract[6,2]))
   clima$altitude <- readr::parse_number(gsub(",","\\.",caract[7,2]))
-  clima$data_fundacao <- caract[8,2]
+  clima$data_fundacao <- get_data(as.character(caract[8,2]))
+  
+  clima[clima == -9999] <- NA
   
   return(clima)
 }
@@ -31,9 +41,9 @@ get_base_inmet <- function(year){
   temp = unzip(temp)
   base = purrr::map_df(temp, get_clima_info)
   unlink(temp)
+  unlink(year, recursive =T)
 
-  #name = paste0("Dados/Clima/Bases/clima", year,".rds")
-  
+  #name = paste0("Bases/clima/clima", year,".rds")
   #saveRDS(base, name)
           
 return(base)
@@ -61,3 +71,4 @@ clima2016 = get_base_inmet(2016)
 clima2017 = get_base_inmet(2017)
 clima2018 = get_base_inmet(2018)
 clima2019 = get_base_inmet(2019)
+clima2020 = get_base_inmet(2020)

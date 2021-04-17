@@ -1,25 +1,4 @@
-library(dplyr)
-
-get_data <- function(chr){
-  
-  if(grepl("-", chr)){
-  x= strsplit(chr, split = "-")[[1]][1]
-  }
-  
-  if(grepl("/", chr)){
-    x= strsplit(chr, split = "/")[[1]][1]
-  }
-  
-  if(nchar(x)==4){
-    y = lubridate::ymd(chr)
-  }
-  if(nchar(x)==2){
-    y = lubridate::dmy(chr)
-  }
-  
-  return(y)
-}
-
+source("R/get_data.R")
 
 get_stations <- function(file){
   
@@ -58,7 +37,7 @@ get_stations_inmet <- function(year){
   unlink(temp)
   unlink(year, recursive =T)
   
-  #name = paste0("Bases/Stations/station", year,".rds")
+  #name = paste0("Bases/stations/station", year,".rds")
   #saveRDS(base, name)
   
   return(base)
