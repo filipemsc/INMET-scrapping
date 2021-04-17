@@ -2,7 +2,8 @@ source("R/get_data.R")
 source("R/change_names.R")
 
 get_clima_info <- function(file){
-  clima = data.table::fread(
+  
+  clima <- data.table::fread(
     file = file,
     sep = ";",
     skip = 7, 
@@ -10,7 +11,7 @@ get_clima_info <- function(file){
     nrow = 50 # only for testing purposes - must delete later
     )
   
-  caract =  data.table::fread(
+  caract <- data.table::fread(
     file = file,
     nrows = 8, 
     header = FALSE,
@@ -18,7 +19,7 @@ get_clima_info <- function(file){
   
   clima = clima[,-"V20"]
   
-  names(clima) = change_names(clima)
+  names(clima) <- change_names(clima)
   
   clima$regiao <- caract[1,2]
   clima$uf <- caract[2,2]
@@ -30,6 +31,9 @@ get_clima_info <- function(file){
   clima$data_fundacao <- get_data(as.character(caract[8,2]))
   
   clima[clima == -9999] <- NA
+  clima <- dplyr::mutate(clima, data = get_data(as.character(data)))
+  clima[,3:19] <- clima[,3:19] %>% lapply(as.numeric)
+  
   
   return(clima)
 }
@@ -72,3 +76,5 @@ clima2017 = get_base_inmet(2017)
 clima2018 = get_base_inmet(2018)
 clima2019 = get_base_inmet(2019)
 clima2020 = get_base_inmet(2020)
+
+
