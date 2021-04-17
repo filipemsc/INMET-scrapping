@@ -1,11 +1,14 @@
 source("R/get_data.R")
+source("R/change_names.R")
 
 get_clima_info <- function(file){
   clima = data.table::fread(
     file = file,
     sep = ";",
     skip = 7, 
-    dec = ",")
+    dec = ",",
+    nrow = 50 # only for testing purposes - must delete later
+    )
   
   caract =  data.table::fread(
     file = file,
@@ -13,7 +16,10 @@ get_clima_info <- function(file){
     header = FALSE,
     col.names= c("caract","value"))
   
-  clima$Data <- lubridate::ymd(clima$Data)
+  clima = clima[,-"V20"]
+  
+  names(clima) = change_names(clima)
+  
   clima$regiao <- caract[1,2]
   clima$uf <- caract[2,2]
   clima$estacao <- caract[3,2]
@@ -24,7 +30,6 @@ get_clima_info <- function(file){
   clima$data_fundacao <- get_data(as.character(caract[8,2]))
   
   clima[clima == -9999] <- NA
-  clima = clima[,-"V20"]  
   
   return(clima)
 }
