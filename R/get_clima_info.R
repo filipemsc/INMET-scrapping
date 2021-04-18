@@ -1,7 +1,8 @@
 source("R/get_data.R")
 source("R/change_names.R")
+source("R/get_city.R")
 
-get_clima_info <- function(file){
+get_clima_info <- function(file, include_city = TRUE){
   
   clima <- data.table::fread(
     file = file,
@@ -35,15 +36,19 @@ get_clima_info <- function(file){
   clima[,3:19] <- clima[,3:19] %>% lapply(as.numeric)
   clima$hora <- as.numeric(substr(clima$hora, 1,2))
   
+  if(include_city == TRUE){
+  clima <- get_city(clima)
+  }
+  
   return(clima)
 }
 
-get_base_inmet <- function(year){
+get_base_inmet <- function(year, include_city = TRUE){
   url = paste0("https://portal.inmet.gov.br/uploads/dadoshistoricos/", year,".zip")
   temp = tempfile()
   download.file(url, temp)
   temp = unzip(temp)
-  base = purrr::map_df(temp, get_clima_info)
+  base = purrr::map_df(temp, get_clima_info, include_city= include_city)
   unlink(temp)
   unlink(year, recursive =T)
 
