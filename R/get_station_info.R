@@ -1,6 +1,7 @@
 source("R/get_data.R")
+source("R/get_city.R")
 
-get_stations <- function(file){
+get_stations <- function(file, include_city = TRUE){
   
   caract = data.table::fread(
     file = file,
@@ -17,7 +18,7 @@ get_stations <- function(file){
   altitude <- caract[7,2]
   datafundacao <- as.character(caract[8,2])
   
-  data.frame(
+  stations = data.frame(
     estacao = as.character(estacao), 
     codigo = as.character(codigo), 
     regiao = as.character(regiao), 
@@ -26,14 +27,20 @@ get_stations <- function(file){
     longitude = readr::parse_number(gsub(",","\\.",longitude)),
     altitude = readr::parse_number(gsub(",","\\.", altitude)),
     data_fundacao = get_data(datafundacao))
+  
+  if(include_city == TRUE){
+  stations = get_city(stations) 
+  }
+  
+  return(stations)
 }
 
-get_stations_inmet <- function(year){
+get_stations_inmet <- function(year, include_city = TRUE){
   url = paste0("https://portal.inmet.gov.br/uploads/dadoshistoricos/", year,".zip")
   temp = tempfile()
   download.file(url, temp)
   temp = unzip(temp)
-  base = purrr::map_df(temp, get_stations)
+  base = furrr::future_map_dfr(temp, get_stations, include_city = include_city)
   unlink(temp)
   unlink(year, recursive =T)
   
