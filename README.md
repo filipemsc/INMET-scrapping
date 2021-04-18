@@ -11,7 +11,7 @@ get_stations_inmet(year, include_city = TRUE)
 ```
 
 ```R
-get_stations_inmet(year, include_city = TRUE)
+get_base_inmet(year, include_city = TRUE)
 ```
 
 ## Available variables
