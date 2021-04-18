@@ -32,7 +32,7 @@ get_base_inmet(year, include_city = TRUE)
 
 `latitude`: Latitude of station
 
-`lontitude `: Longitude of station
+`longitude `: Longitude of station
 
 `altitude`: Altitude of station 
 

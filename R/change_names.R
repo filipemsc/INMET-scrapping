@@ -1,4 +1,4 @@
-new_names = function(base, oldname, newname){
+new_names <- function(base, oldname, newname){
 x = grep(oldname, names(base)) 
 
   if(length(x) > 1) {
@@ -11,7 +11,7 @@ x = grep(oldname, names(base))
   }
 }
  
-change_names = function(base){
+change_names <- function(base){
 names(base) = tolower(names(base))
 names(base) = stringi::stri_trans_general(str = names(base), 
                             id = "Latin-ASCII")
@@ -26,8 +26,6 @@ names(base) = new_names(base,"temperatura.*bulbo.*horaria","temp_bulbo_hora")
 names(base) = new_names(base,"temperatura maxima","temp_max")
 names(base) = new_names(base,"temperatura minima","temp_min")
 names(base) = new_names(base,"temperatura do ponto de orvalho","temp_orvalho")
-names(base) = new_names(base,"temperatura máxima","temp_max")
-names(base) = new_names(base,"temperatura mínima","temp_min")
 names(base) = new_names(base,"temperatura orvalho min","temp_orv_min")
 names(base) = new_names(base,"temperatura orvalho max","temp_orv_max")
 names(base) = new_names(base,"umidade relativa.*horaria","umid_rel_hora")

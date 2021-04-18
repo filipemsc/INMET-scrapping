@@ -1,5 +1,5 @@
-brazil_r <- geobr::read_municipality(year = 2020)
-brasil_r <- as(brazil, 'Spatial')
+brasil_r <- geobr::read_municipality(year = 2020)
+brasil_r <- as(brasil_r, 'Spatial')
 
 get_city <- function(data){
   
