@@ -4,6 +4,16 @@ Web scrapping of INMET (Instituto Nacional de Meteorologia) official data, conta
 ## Required Packages
 stringi, lubridate, purrr, furrr, data.table, readr, dplyr, geobr, raster
 
+## Syntax 
+
+```R
+get_stations_inmet(year, include_city = TRUE)
+```
+
+```R
+get_base_inmet(year, include_city = TRUE)
+```
+
 ## Available variables
 
 ### get_stations_inmet
