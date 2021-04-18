@@ -1,7 +1,3 @@
-source("R/get_data.R")
-source("R/change_names.R")
-source("R/get_city.R")
-
 get_clima_info <- function(file, include_city = TRUE){
   
   clima <- data.table::fread(
@@ -9,7 +5,7 @@ get_clima_info <- function(file, include_city = TRUE){
     sep = ";",
     skip = 7, 
     dec = ",",
-    #nrow = 50 # only for testing purposes - must delete later
+    #nrow = 50 - only for testing purposes
     )
   
   caract <- data.table::fread(
@@ -61,29 +57,3 @@ get_base_inmet <- function(year, include_city = TRUE){
           
 return(base)
 }
-
-memory.limit(24576)
-
-clima2000 = get_base_inmet(2000)
-clima2001 = get_base_inmet(2001)
-clima2002 = get_base_inmet(2002)
-clima2003 = get_base_inmet(2003)
-clima2004 = get_base_inmet(2004)
-clima2005 = get_base_inmet(2005)
-clima2006 = get_base_inmet(2006)
-clima2007 = get_base_inmet(2007)
-clima2008 = get_base_inmet(2008)
-clima2009 = get_base_inmet(2009)
-clima2010 = get_base_inmet(2010)
-clima2011 = get_base_inmet(2011)
-clima2012 = get_base_inmet(2012)
-clima2013 = get_base_inmet(2013)
-clima2014 = get_base_inmet(2014)
-clima2015 = get_base_inmet(2015)
-clima2016 = get_base_inmet(2016)
-clima2017 = get_base_inmet(2017)
-clima2018 = get_base_inmet(2018)
-clima2019 = get_base_inmet(2019)
-clima2020 = get_base_inmet(2020)
-
-

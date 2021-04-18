@@ -4,17 +4,42 @@ Web scrapping of INMET (Instituto Nacional de Meteorologia) official data, conta
 ## Required Packages
 stringi, lubridate, purrr, furrr, data.table, readr, dplyr, geobr, raster
 
+## Syntax 
+
+```R
+get_stations_inmet(year, include_city = TRUE)
+```
+
+```R
+get_base_inmet(year, include_city = TRUE)
+```
+
 ## Available variables
 
-### get_base_inmet
+### get_stations_inmet
 
 `estacao`: Name of the meteorological station 
 
 `codigo`: Code of the meteorological station
 
-`municipio`: City where the meteorological station is located
+`municipio`: City where station is located
 
 `id_municipio`: IBGE code of the city 
+
+`regiao`: Brazilian region where the station is located
+
+`uf`: State of Brazil where the station is located 
+
+`latitude`: Latitude of station
+
+`lontitude `: Longitude of station
+
+`altitude`: Altitude of station 
+
+`data_fundacao`: Date which the station was founded
+
+
+### get_base_inmet
 
 `data`: Date
 
