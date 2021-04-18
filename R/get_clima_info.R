@@ -9,7 +9,7 @@ get_clima_info <- function(file, include_city = TRUE){
     sep = ";",
     skip = 7, 
     dec = ",",
-    nrow = 50 # only for testing purposes - must delete later
+    #nrow = 50 # only for testing purposes - must delete later
     )
   
   caract <- data.table::fread(
@@ -37,7 +37,11 @@ get_clima_info <- function(file, include_city = TRUE){
   clima$hora <- as.numeric(substr(clima$hora, 1,2))
   
   if(include_city == TRUE){
-  clima <- get_city(clima)
+  data <- data.frame(latitude = readr::parse_number(gsub(",","\\.",caract[5,2])),
+                     longitude = readr::parse_number(gsub(",","\\.",caract[6,2])))
+  city <- get_city(data)
+  clima$municipio <- city$municipio
+  clima$id_municipio <- city$id_municipio
   }
   
   return(clima)
@@ -48,7 +52,7 @@ get_base_inmet <- function(year, include_city = TRUE){
   temp = tempfile()
   download.file(url, temp)
   temp = unzip(temp)
-  base = purrr::map_df(temp, get_clima_info, include_city= include_city)
+  base = furrr::future_map_dfr(temp, get_clima_info, include_city= include_city)
   unlink(temp)
   unlink(year, recursive =T)
 
