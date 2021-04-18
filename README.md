@@ -8,6 +8,14 @@ stringi, lubridate, purrr, data.table, readr, dplyr
 
 ### get_base_inmet
 
+`estacao`: Name of the meteorological station 
+
+`codigo`: Code of the meteorological station
+
+`municipio`: City where the meteorological station is located
+
+`id_municipio`: IBGE code of the city 
+
 `data`: Date
 
 `hour`: Hour (UTC)
